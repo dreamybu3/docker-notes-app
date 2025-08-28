@@ -1,0 +1,24 @@
+name: CI Pipeline
+
+# Запускать воркфлоу при push в ветку main
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  # Название нашей задачи
+  build-and-test:
+    # Запускать на последней версии Ubuntu
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Шаг: Клонируем наш репозиторий на виртуальную машину GitHub
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # 2. Шаг: Запускаем наши тесты с помощью docker-compose
+      # GitHub Actions выполнит ту же команду, что и вы на своем компьютере
+      - name: Run tests
+        run: docker-compose -f docker-compose.test.yml up --build --abort-on-container-exit

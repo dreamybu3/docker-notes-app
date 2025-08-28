@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Docker Заметки</title>
+    <style>
+        body { font-family: sans-serif; max-width: 600px; margin: auto; padding: 20px; }
+        .note { border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; border-radius: 5px; }
+        form { margin-top: 20px; }
+    </style>
+</head>
+<body>
+<h1>Мои заметки</h1>
+
+<div id="notes-list">
+    {% for note in notes %}
+    <div class="note">
+        <p>#{{ note[0] }} - {{ note[1] }}</p>
+    </div>
+    {% endfor %}
+</div>
+
+<hr>
+
+<form action="{{ url_for('add_note') }}" method="post">
+    <label for="content">Новая заметка:</label><br>
+    <textarea id="content" name="content" rows="4" cols="50" required></textarea><br><br>
+    <input type="submit" value="Добавить">
+</form>
+
+</body>
+</html>

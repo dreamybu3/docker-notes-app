@@ -1,4 +1,6 @@
+# requirements.txt
 flask
 psycopg2-binary
 gunicorn
 pytest
+click  # <-- Убедитесь, что эта строка есть

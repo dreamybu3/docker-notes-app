@@ -1,0 +1,36 @@
+# docker-compose.test.yml
+
+services:
+  backend-test:
+    build: .
+    container_name: notes-app-test
+    ports:
+      - "8002:5000" # TEST будет доступен на порту 8002
+    environment:
+      - FLASK_ENV=production
+      - FLASK_APP=app/main.py
+      - DB_HOST=db-test
+      - DB_NAME=notesdb_test
+      - DB_USER=test_user
+      - DB_PASSWORD=test_password
+    depends_on:
+      db-test:
+        condition: service_healthy
+
+  db-test:
+    image: postgres:14-alpine
+    container_name: postgres-test
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U test_user -d notesdb_test"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    environment:
+      - POSTGRES_DB=notesdb_test
+      - POSTGRES_USER=test_user
+      - POSTGRES_PASSWORD=test_password
+    volumes:
+      - postgres_data_test:/var/lib/postgresql/data/
+
+volumes:
+  postgres_data_test:
